@@ -100,6 +100,51 @@ plugins.push(
 );
 
 
+//configure hmre
+//enable or disable hot module replace
+var buildModule = PRODUCTION || TEST
+    ?             {
+                    rules: [
+                      {
+                        test: /\.(js|jsx)$/, //check for all js files
+                        use: [{
+                          loader: 'babel-loader',
+                          options: { presets: ['react', 'es2015', 'stage-0']}
+                        }],
+                        exclude: /(node_modules)/
+                      },
+                      {
+                        test: /\.scss$/,
+                        use:['style-loader','css-loader','sass-loader']
+                      },
+                      { test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192' }
+                    ],
+                    noParse: [
+                      /node_modules\/sinon/
+                    ]
+                  }
+      :           {
+                      rules: [
+                        {
+                          test: /\.(js|jsx)$/, //check for all js files
+                          use: [{
+                            loader: 'babel-loader',
+                            options: { presets: ['react', 'es2015', 'stage-0', 'react-hmre']}
+                          }],
+                          exclude: /(node_modules)/
+                          },
+                          {
+                            test: /\.scss$/,
+                            use:['style-loader','css-loader','sass-loader']
+                          },
+                          { test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192' }
+                      ],
+                      noParse: [
+                        /node_modules\/sinon/
+                      ]
+                    };
+
+
 module.exports =  {
   //find this file and start from there
   context: __dirname + '/app',
@@ -107,12 +152,7 @@ module.exports =  {
   externals: {
     jquery: 'jQuery'
   },
-  plugins: [
-    new webpack.ProvidePlugin({
-      '$':'jquery',
-      'jQuery':'jquery'
-    })
-  ],
+  plugins: plugins,
   output: {
     path: __dirname,
     filename: './public/bundle.js'
@@ -127,23 +167,6 @@ module.exports =  {
     //files we want to process
     extensions: ['', '.js', '.jsx']
   },
-  module: {
-    loaders: [
-      {
-        //name of loader
-        loader: 'babel-loader',
-        query: { //parse the files through react
-          presets: ['react', 'es2015', 'stage-0']
-        },
-        test: /\.jsx?$/, //regex for .jsx extension
-        exclude: /(node_modules|bower_components)/ //set up folders to be ignored
-      }
-    ]
-  },
-  sassLoader: {
-    includePaths: [
-      path.resolve(__dirname, './node_modules/foundation-sites/scss')
-    ]
-  },
+  module: buildModule,
   devtool: 'cheap-module-eval-source-map'
 };
