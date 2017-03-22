@@ -168,5 +168,10 @@ module.exports =  {
     extensions: ['', '.js', '.jsx']
   },
   module: buildModule,
+  devServer: {
+    contentBase: './public',
+    inline: true,
+    hot: true
+  },
   devtool: 'cheap-module-eval-source-map'
 };
