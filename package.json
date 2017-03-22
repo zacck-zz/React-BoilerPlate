@@ -4,16 +4,19 @@
   "description": "React Startup App",
   "main": "index.js",
   "scripts": {
-    "test": "karma start",
-    "start": "node server.js"
+    "dev": "NODE_ENV=development webpack-dev-server --hot --history-api-fallback",
+    "test": "NODE_ENV=test karma start",
+    "build": "webpack",
+    "start": "node server.js",
+    "postinstall": "NODE_ENV=production npm rebuild node-sass && webpack"
   },
   "author": "Zacck Osiemo",
   "license": "MIT",
   "dependencies": {
     "express": "^4.14.0",
-    "react": "^0.14.7",
-    "react-dom": "^0.14.7",
-    "react-router": "^2.0.0",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-router": "^4.0.0",
     "webpack": "^2.3.0"
   },
   "devDependencies": {
