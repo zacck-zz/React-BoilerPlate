@@ -33,7 +33,7 @@ var entry = PRODUCTION
 
           './app.jsx',
           'script-loader!jquery/dist/jquery.min.js',
-          'script-loader!foundation-sites/dist/foundation.min.js',
+          'script-loader!foundation-sites/dist/js/foundation.min.js',
         ];
 
 var plugins = PRODUCTION
@@ -59,8 +59,8 @@ var plugins = PRODUCTION
             }),
             new SWPrecacheWebpackPlugin(
               {
-                cacheId: 'hapihour',
-                filename: 'hapi-sw.js',
+                cacheId: 'random',
+                filename: 'random-sw.js',
                 forceDelete: true,
                 minify: true,
                 skipWaiting: true,
@@ -69,7 +69,10 @@ var plugins = PRODUCTION
             )
           ]
     :     [
-            new webpack.NamedModulesPlugin()
+            new webpack.NamedModulesPlugin(),
+            new HTMLWebpackPlugin({
+              template:'index-template.html'
+            })
           ];
 
 
@@ -133,10 +136,6 @@ var buildModule = PRODUCTION || TEST
                           }],
                           exclude: /(node_modules)/
                           },
-                          {
-                            test: /\.scss$/,
-                            use:['style-loader','css-loader','sass-loader']
-                          },
                           { test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192' }
                       ],
                       noParse: [
@@ -154,18 +153,22 @@ module.exports =  {
   },
   plugins: plugins,
   output: {
-    path: __dirname,
-    filename: './public/bundle.js'
+    publicPath: PRODUCTION ? '/' : '/',
+    filename: PRODUCTION ? '[name].[hash:12].min.js' : '[name].bundle.js',
+    path: __dirname + '/public'
   },
   resolve: {
     //where all this needs to happen
-    root: __dirname,
+    modules: [
+      'node_modules',
+      './app/components/',
+    ],
     alias: {
-      applicationStyles: 'app/styles/app.scss',
-      Main: 'app/components/Main.jsx'
+      applicationStyles: path.resolve(__dirname, 'app/styles/app.scss'),
+      Main: path.resolve(__dirname, 'app/components/Main.jsx')
     },
     //files we want to process
-    extensions: ['', '.js', '.jsx']
+    extensions: [' ', '.js', '.jsx']
   },
   module: buildModule,
   devServer: {
@@ -173,5 +176,5 @@ module.exports =  {
     inline: true,
     hot: true
   },
-  devtool: 'cheap-module-eval-source-map'
+  devtool: 'source-map'
 };

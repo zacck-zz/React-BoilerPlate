@@ -1,22 +1,19 @@
 //import react
-var React = require('react');
-var ReactDOM = require('react-dom');
+import React from 'react';
+import ReactDOM from 'react-dom';
 //ES6 Destructuting syntax
-var {Route, Router, IndexRoute, hashHistory} = require('react-router');
+import  {Route, Router, IndexRoute, browserHistory} from 'react-router';
 //add components
-var Main = require('Main');
-
+import Main from 'Main'
 
 //app css require
-require('style!css!sass!applicationStyles');
+import 'script-loader!jquery'
+import 'script-loader!what-input'
+import 'script-loader!foundation-sites'
+//require('applicationStyles');
 
 //Create our Router
 ReactDOM.render(    //pass two args, JSX and the app element
-  <Router history={hashHistory}>
-    {/*Main component will always be rendered*/}
-    <Route path="/" component={Main}>
-      {/*Add Routes here */}
-    </Route>
-  </Router>,
+  <Main/>,
   document.getElementById('app') //where to render
 );
