@@ -14,6 +14,6 @@ import 'script-loader!foundation-sites'
 
 //Create our Router
 ReactDOM.render(    //pass two args, JSX and the app element
-  <Main/>,
+  <Main seconds={30} sections={1}/>,
   document.getElementById('app') //where to render
 );
