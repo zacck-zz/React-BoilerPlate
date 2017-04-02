@@ -1,17 +1,18 @@
-var React = require('react');
-
+import React, {Component} from 'react'
 //components we need in this Component
-var Main = (props) => {
-  return (
-    <div>
-        <div className="row">
-          <div className="column small-centered medium-6 large-4">
-            {/*render children here*/}
-            <p className="text-center">You are in the app shell</p>
+class Main extends Component{
+  render(){
+    return (
+      <div>
+          <div className="row">
+            <div style={{textAlign: 'center'}}>
+              {/*render children here*/}
+              <p>You are in the app shell</p>
+            </div>
           </div>
-        </div>
-    </div>
-  );
+      </div>
+    );
+  }
 }
 
-module.exports = Main;
+export default Main;
