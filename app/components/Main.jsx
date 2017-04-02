@@ -9,29 +9,38 @@ class Main extends Component{
       timeLeft: 0,
       message: ''
     };
-
   };
 
 
-
+  //called when the component is mounted so do work here
   componentDidMount() {
-    const secs = this.props.seconds
     //this is called directly after the app starts
     //lets reduce the seconds
-    this.setState({timeLeft:secs});
+    this.setState({timeLeft:this.props.seconds});
     //set up a one second interval
     this.timerID = setInterval(() => this.setState({
       timeLeft: this.state.timeLeft - 1
     }), 1000);
   }
 
-
+  //this is called just before a component is mounted
   componentsWillMount(){
+    //console.log('component mounted');
   }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if(nextState.timeLeft % 2 == 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 
   componentWillReceiveProps(nextProps) {
-
+    console.log('props');
   }
+  //lets check if the timer is done and work on clearing
   componentDidUpdate(prevProps, prevState){
     //if we are finished counting lets tell our user
     if(prevState.timeLeft == 1) {
